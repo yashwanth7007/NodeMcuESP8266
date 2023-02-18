@@ -1,0 +1,13 @@
+#---------------------------------------------------------
+#                        C# Application
+#---------------------------------------------------------
+cmake_minimum_required (VERSION 3.12.0)
+
+project("TcpClient" LANGUAGES CSharp)
+file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_LIST_DIR}/src/*.cs"
+)
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/bin")
+
+add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
