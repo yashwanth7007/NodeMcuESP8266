@@ -1,7 +1,7 @@
 %module msgMod
-//https://www.swig.org/Doc1.3/Library.html#Library_carrays
 
-%include "carrays.i"
+
+%include "carrays.i" //https://www.swig.org/Doc1.3/Library.html#Library_carrays
 %array_functions(uint8_t, uint8_t_arr);
 
 %{
