@@ -31,6 +31,12 @@ I2C_STATUS i2cWriteRead(uint16_t i2cAddress, uint16_t nWrLen, uint8_t* wrBuff, u
     if(Wire.available())
     {
       index += Wire.readBytes(&rdBuff[index], nRdLen);
+
+      for(int i = 0 ; i < nRdLen; i++)
+      {
+          Serial.printf("rd %d = %x", i, rdBuff[i]);
+      }
+
       if(index != nRdLen)
       {
         Serial.println("I2C Error!");
@@ -88,10 +94,10 @@ void loop() {
     
     while(client.connected()){  
       int index = 0;    
-      while(client.available()>0){
+      while(client.available()>0 || index != sizeof(Msg)){
         // read data from the connected client
 
-        index += client.readBytes(&MSGBuffer[index], client.available()); 
+        index += client.readBytes(&MSGBuffer[index], sizeof(Msg)); 
       }
 
       if (index != sizeof(Msg))
@@ -109,11 +115,22 @@ void loop() {
       {
         Serial.println("No proper connection");
       }
-      //Send Data to connected client
-      while(Serial.available()>0)
+      else 
       {
-        client.write(Serial.read());
+        Serial.println("Header recieved");
       }
+      //Send Data to connected client
+
+      int rdLen = msg->payload.i2c.tran.v1.req.rdLen;
+
+      i2cWriteRead(msg->payload.i2c.tran.v1.req.chipAddr, msg->payload.i2c.tran.v1.req.wrLen,
+                  &msg->payload.i2c.tran.v1.req.wrBuff[0], msg->payload.i2c.tran.v1.req.rdLen,
+                  &msg->payload.i2c.tran.v1.resp.rdBuff[0]);
+
+      msg->payload.i2c.tran.v1.resp.rdLen = rdLen;
+
+
+      client.write(&MSGBuffer[0], sizeof(Msg));
 
       //client.write("Hello From Server");
     }
@@ -135,7 +152,5 @@ void loop() {
     Serial.printf("rdBuff[%d] = %x\n", i, rdBuff[i]);
   }
   */
-
- Serial.println();
  delay(1000);
 }

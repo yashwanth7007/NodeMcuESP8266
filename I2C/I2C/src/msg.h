@@ -42,6 +42,10 @@ struct Msg
     union MsgPayload  payload;
 };
 
+int getMsgSize();
+uint8_t* typeCastMsgToUint8(struct Msg* msg);
+
+
 
 
 #endif //MSG_H
