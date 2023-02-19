@@ -1,0 +1,1 @@
+set(SWIG_EXECUTABLE_PATH "${CMAKE_CURRENT_LIST_DIR}/swigwin-4.0.2/swig.exe")
