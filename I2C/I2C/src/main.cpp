@@ -3,6 +3,8 @@
 #include <stdint.h>
 #include "msg.h"
 
+#define DEBUG 0
+
 
 uint8_t MSGBuffer[sizeof(Msg)];
 
@@ -32,10 +34,12 @@ I2C_STATUS i2cWriteRead(uint16_t i2cAddress, uint16_t nWrLen, uint8_t* wrBuff, u
     {
       index += Wire.readBytes(&rdBuff[index], nRdLen);
 
+#if DEBUG == 1
       for(int i = 0 ; i < nRdLen; i++)
       {
-          Serial.printf("rd %d = %x", i, rdBuff[i]);
+          Serial.printf("rd %d = %x \n", i, rdBuff[i]);
       }
+#endif  
 
       if(index != nRdLen)
       {
@@ -117,7 +121,9 @@ void loop() {
       }
       else 
       {
+        #if DEBUG == 1
         Serial.println("Header recieved");
+        #endif
       }
       //Send Data to connected client
 

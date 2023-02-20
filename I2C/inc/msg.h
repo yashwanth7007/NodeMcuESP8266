@@ -44,7 +44,7 @@ struct Msg
 
 int getMsgSize();
 uint8_t* typeCastMsgToUint8(struct Msg* msg);
-
+struct Msg* typeCastUint8ToMsg(uint8_t* pData);
 
 
 
